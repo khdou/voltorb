@@ -10,7 +10,7 @@ export function solveVoltorbFlip(board, rowSum, colSum, sols) {
       myColSum[j] += board[i][j];
     }
   }
-  backtrack(board, 0, 0, sols, myRowSum, myColSum);
+  backtrack(board, 0, 0, sols, myRowSum, myColSum, rowSum, colSum);
   let results = [
     [0.0, 0.0, 0.0, 0.0, 0.0],
     [0.0, 0.0, 0.0, 0.0, 0.0],
@@ -35,7 +35,7 @@ export function solveVoltorbFlip(board, rowSum, colSum, sols) {
   return results;
 }
 
-function backtrack(board, row, col, sols, myRowSum, myColSum) {
+function backtrack(board, row, col, sols, myRowSum, myColSum, rowSum, colSum) {
   if (row === 5 && col === 0) {
     sols.push(cloneBoard(board));
     print2D(board);
