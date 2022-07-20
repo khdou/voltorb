@@ -24,16 +24,19 @@ export default function VoltorbCell(props) {
         <Card variant="outlined" square style={{backgroundColor: color}}>
             <CardContent>
                 <FormControl fullWidth>
-                    <InputLabel>Value</InputLabel>
+                    <InputLabel>Points</InputLabel>
                     <Select
-                        label="Value"
+                        label="Points"
                         value={props.val}
                         onChange={props.updateVal}
-                        variant="outlined">
+                        variant="outlined"
+                        style={{height : "45px"}}
+                        >
                         {cMenuItems}      
                     </Select>
                 </FormControl>
-                <Typography color={shouldShowColor() ? "black" : "white"}>
+                <Typography color={shouldShowColor() ? "black" : "white"}
+                    style={{height: "25px", marginTop:"10px"}}>
                     {props.score.toString()}%
                 </Typography>
             </CardContent>

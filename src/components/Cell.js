@@ -12,15 +12,18 @@ export default function Cell(props) {
     for (let i = 0; i <= 5; i++) {
         vMenuItems.push(<MenuItem key={i} value={i}>{i}</MenuItem>);
     }
-    return (<Card variant="outlined">
-        <CardContent>
-            <FormControl fullWidth style={{marginBottom: "20px"}}>
+    return (<Card variant="outlined" square style={{borderColor: "#2196f3"}}>
+        <CardContent style={{height:"80px", width:"107px"}}>
+            <FormControl fullWidth style={{marginBottom: "12px"}}>
                 <InputLabel>Points</InputLabel>
                 <Select
                     label="Points"
                     value={props.numPoints}
-                    onChange={props.handlePointsChange}>
-                    {pMenuItems}      
+                    onChange={props.handlePointsChange}
+                    style={{height:"35px"}} 
+                >
+                    {pMenuItems} 
+                        
                 </Select>
             </FormControl>
             <FormControl fullWidth>
@@ -28,7 +31,9 @@ export default function Cell(props) {
                 <Select
                     label="Voltorbs"
                     value={props.numVoltorbs}
-                    onChange={props.handleVoltorbsChange}>
+                    onChange={props.handleVoltorbsChange}
+                    style={{height:"35px"}} 
+                >
                     {vMenuItems}      
                 </Select>
             </FormControl>
