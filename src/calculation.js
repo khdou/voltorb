@@ -1,17 +1,22 @@
-export function solveVoltorbFlip(game) {
+export function solveVoltorbFlip(board, rowSum, colSum) {
     console.log("Solving..");
-
+    const myRowSum = [0, 0, 0, 0, 0];
+    const myColSum =  [0, 0, 0, 0, 0];
+    const sols = [];
+    
     for (let i = 0; i < 5; i++) {
         for (let j = 0; j < 5; j++) {
-            game.myRowSum[i] += game.board[i][j];
-            game.myColSum[j] += game.board[i][j];
+            myRowSum[i] += board[i][j];
+            myColSum[j] += board[i][j];
         }
     }
-    console.log(game);
-    backtrack(game, 0, 0);
 
-    console.log("Solved! " + game.sols.length + " total solutions found.");
+    backtrack(board, rowSum, colSum, myRowSum, myColSum, sols, 0, 0);
 
+    console.log("Solved! " + sols.length + " total solutions found.");
+    console.log("RowSum = " + rowSum);
+    console.log("ColSum = " + colSum);
+    
     let results = [
         [0.0, 0.0, 0.0, 0.0, 0.0],
         [0.0, 0.0, 0.0, 0.0, 0.0],
@@ -20,14 +25,15 @@ export function solveVoltorbFlip(game) {
         [0.0, 0.0, 0.0, 0.0, 0.0]
     ];
 
-    for (let sol in game.sols) {
-        for (let i = 0; i < 5; i++) {
+    sols.forEach( sol => 
+        {for (let i = 0; i < 5; i++) {
             for (let j = 0; j < 5; j++) {
                 results[i][j] += sol[i][j] === 100 ? 100.0 : 0.0;
             }
-        }
-    }
-    let size = parseFloat(game.sols.length);
+        }});
+        
+    
+    let size = parseFloat(sols.length);
     for (let i = 0; i < 5; i++) {
         for (let j = 0; j < 5; j++) {
             results[i][j] /= size;
@@ -38,118 +44,116 @@ export function solveVoltorbFlip(game) {
     return results;
 }
 
-function backtrack(game, row, col) {
+function backtrack(board, rowSum, colSum, myRowSum, myColSum, sols, row, col) {
     if (row === 5 && col === 0) {
-        game.sols.push(cloneBoard(game.board));
-        print2D(game.board);
+        sols.push(cloneBoard(board));
+        print2D(board);
         return;
     }
     for (let i = row; i < 5; i++) {
         for (let j = 0; j < 5; j++) {
             if (i === row && j >= col) {
-                console.log(game);
-                console.log(game.board[i][j]);
-                if (game.board[i][j] === 0) {
-                    game.board[i][j] = 100;
-                    game.myRowSum[i] += 100;
-                    game.myColSum[j] += 100;
-                    if (isValid(game, i, j)) {
+                if (board[i][j] === 0) {
+                    board[i][j] = 100;
+                    myRowSum[i] += 100;
+                    myColSum[j] += 100;
+                    if (isValid(board, rowSum, colSum, myRowSum, myColSum, i, j)) {
                         if (j === 4) {
-                            backtrack(game.board, i + 1, 0);
+                            backtrack(board, rowSum, colSum, myRowSum, myColSum, sols, i + 1, 0);
                         } else {
-                            backtrack(game.board, i, j + 1);
+                            backtrack(board, rowSum, colSum, myRowSum, myColSum, sols, i, j + 1);
                         }
                     }
-                    game.board[i][j] = 0;
-                    game.myRowSum[i] -= 100;
-                    game.myColSum[j] -= 100;
+                    board[i][j] = 0;
+                    myRowSum[i] -= 100;
+                    myColSum[j] -= 100;
                     for (let k = 3; k > 0; k--) {
-                        game.board[i][j] = k;
-                        game.myRowSum[i] += k;
-                        game.myColSum[j] += k;
-                        if (isValid(game, i, j)) {
+                        board[i][j] = k;
+                        myRowSum[i] += k;
+                        myColSum[j] += k;
+                        if (isValid(board, rowSum, colSum, myRowSum, myColSum, i, j)) {
                             if (j === 4) {
-                                backtrack(game.board, i + 1, 0);
+                                backtrack(board, rowSum, colSum, myRowSum, myColSum, sols, i + 1, 0);
                             } else {
-                                backtrack(game.board, i, j + 1);
+                                backtrack(board, rowSum, colSum, myRowSum, myColSum, sols, i, j + 1);
                             }
                         }
-                        game.board[i][j] = 0;
-                        game.myRowSum[i] -= k;
-                        game.myColSum[j] -= k;
+                        board[i][j] = 0;
+                        myRowSum[i] -= k;
+                        myColSum[j] -= k;
                     }
                     return;
                 }
             } else if (i > row) {
-                if (game.board[i][j] === 0) {
-                    game.board[i][j] = 100;
-                    game.myRowSum[i] += 100;
-                    game.myColSum[j] += 100;
-                    if (isValid(game, i, j)) {
+                if (board[i][j] === 0) {
+                    board[i][j] = 100;
+                    myRowSum[i] += 100;
+                    myColSum[j] += 100;
+                    if (isValid(board, rowSum, colSum, myRowSum, myColSum, i, j)) {
                         if (j === 4) {
-                            backtrack(game.board, i + 1, 0);
+                            backtrack(board, rowSum, colSum, myRowSum, myColSum, sols, i + 1, 0);
                         } else {
-                            backtrack(game.board, i, j + 1);
+                            backtrack(board, rowSum, colSum, myRowSum, myColSum, sols, i, j + 1);
                         }
                     }
-                    game.board[i][j] = 0;
-                    game.myRowSum[i] -= 100;
-                    game.myColSum[j] -= 100;
+                    board[i][j] = 0;
+                    myRowSum[i] -= 100;
+                    myColSum[j] -= 100;
                     for (let k = 3; k > 0; k--) {
-                        game.board[i][j] = k;
-                        game.myRowSum[i] += k;
-                        game.myColSum[j] += k;
-                        if (isValid(game, i, j)) {
+                        board[i][j] = k;
+                        myRowSum[i] += k;
+                        myColSum[j] += k;
+                        if (isValid(board, rowSum, colSum, myRowSum, myColSum, i, j)) {
                             if (j === 4) {
-                                backtrack(game.board, i + 1, 0);
+                                backtrack(board, rowSum, colSum, myRowSum, myColSum, sols, i + 1, 0);
                             } else {
-                                backtrack(game.board, i, j + 1);
+                                backtrack(board, rowSum, colSum, myRowSum, myColSum, sols, i, j + 1);
                             }
                         }
-                        game.board[i][j] = 0;
-                        game.myRowSum[i] -= k;
-                        game.myColSum[j] -= k;
+                        board[i][j] = 0;
+                        myRowSum[i] -= k;
+                        myColSum[j] -= k;
                     }
                     return;
                 }
             }
         }
     }
-    game.sols.push(cloneBoard(game.board));
-    print2D(game.board);
+    sols.push(cloneBoard(board));
+    print2D(board);
 }
 
-function isValid(game, row, col) {
+function isValid(board, rowSum, colSum, myRowSum, myColSum, row, col) {
     let isRowCompleted = true;
     let isColCompleted = true;
     for (let i = 0; i < 5; i++) {
-        if (game.board[row][i] === 0) {
+        if (board[row][i] === 0) {
             isRowCompleted = false;
         }
-        if (game.board[i][col] === 0) {
+        if (board[i][col] === 0) {
             isColCompleted = false;
         }
     }
     if (isRowCompleted) {
-        if (game.myRowSum[row] !== game.rowSum[row]) {
+        if (myRowSum[row] !== rowSum[row]) {
             return false;
         }
     } else {
         if (
-            game.myRowSum[row] > game.rowSum[row] ||
-            game.myRowSum[row] % 100 > game.rowSum[row] % 100
+            myRowSum[row] > rowSum[row] ||
+            myRowSum[row] % 100 > rowSum[row] % 100
         ) {
             return false;
         }
     }
     if (isColCompleted) {
-        if (game.myColSum[col] !== game.colSum[col]) {
+        if (myColSum[col] !== colSum[col]) {
             return false;
         }
     } else {
         if (
-            game.myColSum[col] > game.colSum[col] ||
-            game.myColSum[col] % 100 > game.colSum[col] % 100
+            myColSum[col] > colSum[col] ||
+            myColSum[col] % 100 > colSum[col] % 100
         ) {
             return false;
         }
