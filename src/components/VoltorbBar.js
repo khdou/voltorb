@@ -6,13 +6,13 @@ export default function VoltorbBar(props) {
     const numVoltorbs = props.arraySum.map(sum => Math.floor(sum / 100));
 
     const handlePointsChange = (index, val) => {
-        let newArraySum = props.arraySum.slice();
+        const newArraySum = props.arraySum.slice();
         newArraySum[index] = numVoltorbs[index] * 100 + parseInt(val);
         props.updateArray(newArraySum);
     }
 
     const handleVoltorbsChange = (index, val) => {
-        let newArraySum = props.arraySum.slice();
+        const newArraySum = props.arraySum.slice();
         newArraySum[index] = parseInt(val)*100 + numPoints[index];
         props.updateArray(newArraySum);
     }
@@ -20,12 +20,17 @@ export default function VoltorbBar(props) {
 
     const cellList = [];
     for (let i = 0; i < numPoints.length; i++) {
-        cellList.push(<Cell key={i + 10*props.isRow} numPoints={numPoints[i]} numVoltorbs={numVoltorbs[i]} 
-            handlePointsChange={(e) => handlePointsChange(i,e.target.value)}
-            handleVoltorbsChange={(e) => handleVoltorbsChange(i,e.target.value)}/>);
+        cellList.push(<Cell 
+                        xs={2} 
+                        key={i + 10*props.isRow} 
+                        numPoints={numPoints[i]} 
+                        numVoltorbs={numVoltorbs[i]} 
+                        handlePointsChange={(e) => handlePointsChange(i,e.target.value)}
+                        handleVoltorbsChange={(e) => handleVoltorbsChange(i,e.target.value)}
+                    />);
     }
 
-    return (<Grid direction={direction} container spacing={2}>
+    return (<Grid direction={direction} item container spacing={props.spacing} xs={props.xs}>
         {cellList}
     </Grid>);
 }

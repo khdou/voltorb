@@ -1,7 +1,7 @@
 import "./styles.css";
 import { solveVoltorbFlip, print2D } from "./calculation.js";
 import VoltorbGrid from "./components/VoltorbGrid";
-import { Grid } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { useState } from "react";
 import VoltorbBar from "./components/VoltorbBar";
 
@@ -17,31 +17,59 @@ export default function App() {
     const [rowSum, setRowSum] = useState([100, 105, 5, 203, 204]);
     const [colSum, setColSum] = useState([7, 104, 105, 106, 302]);
     
-    const [boardScores, setBoardScores]= useState(solveVoltorbFlip(boardValues, rowSum, colSum));
+    const [boardScores, setBoardScores] = useState(solveVoltorbFlip(boardValues, rowSum, colSum));
 
     const updateBoardValues = (row, col, val) => {
         let newBoard = boardValues.map(row => row.slice());
-        newBoard[row][col] = val;
+        newBoard[row][col] = parseInt(val);
         setBoardValues(newBoard);
+        setBoardScores(solveVoltorbFlip(newBoard, rowSum, colSum));
     }
 
-    const updateRow = (arr) => {
-        setRowSum(arr);
+    const updateRow = (newRow) => {
+        setRowSum(newRow);
+        setBoardScores(solveVoltorbFlip(boardValues, newRow, colSum));
     }
 
-    const updateCol = (arr) => {
-        setColSum(arr);
+    const updateCol = (newCol) => {
+        setColSum(newCol);
+        setBoardScores(solveVoltorbFlip(boardValues, rowSum, newCol));
     }
 
+    const reset = () => {
+        setBoardValues([
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0]
+        ]);
+        setRowSum([0,0,0,0,0]);
+        setColSum([0,0,0,0,0]);
+        setBoardScores(solveVoltorbFlip([
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0]
+        ], [0,0,0,0,0], [0,0,0,0,0]));
+    }
     return (
         <div className="App">
-            <Grid>
-                <Grid container spacing={2}>
-                    <VoltorbGrid xs={10} updateBoardValues={updateBoardValues}/>
-                    <VoltorbBar xs={2} isRow={true} arraySum={rowSum} updateArray={updateRow} />
+            <Typography>Voltorb Solver</Typography>
+            <Button variant="outlined" onClick={reset}>Reset</Button>
+            <Grid item container>
+                <Grid item xs={2}></Grid>
+                <Grid item xs={7}>
+                    <VoltorbGrid xs={12} boardValues={boardValues} boardScores={boardScores} updateBoardValues={updateBoardValues}/>
                 </Grid>
-                <Grid>
-                    <VoltorbBar isRow={false} arraySum={colSum} updateArray ={updateCol} /> 
+                <Grid item xs={1}>
+                    <VoltorbBar xs={12} isRow={true} arraySum={rowSum} updateArray={updateRow} />
+                </Grid>
+                <Grid item xs={2}></Grid>
+                <Grid item xs={2}></Grid>
+                <Grid item xs={10}>
+                    <VoltorbBar xs={12} isRow={false} arraySum={colSum} updateArray ={updateCol} /> 
                 </Grid>
             </Grid>
         </div>
