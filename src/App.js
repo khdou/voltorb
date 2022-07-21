@@ -52,8 +52,26 @@ export default function App() {
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0]
-        ], [0,0,0,0,0], [0,0,0,0,0]));
+        ], [303,303,303,303,303], [303,303,303,303,303]));
     }
+
+    const resetBoardOnly = () => {
+        setBoardValues([
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0]
+        ]);
+        setBoardScores(solveVoltorbFlip([
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0]
+        ], rowSum, colSum));
+    }
+
 
     const demo = () => {
         setBoardValues([
@@ -86,7 +104,8 @@ export default function App() {
                 </Toolbar>
             </AppBar>
 
-            <Button variant="outlined" onClick={reset} style={{margin:"20px"}}>Reset</Button>
+            <Button variant="outlined" onClick={reset} style={{margin:"20px"}}>Reset All</Button>
+            <Button variant="outlined" onClick={resetBoardOnly} style={{margin:"20px"}}>Reset Board Only</Button>
             <Button variant="outlined" onClick={demo} style={{margin:"20px"}}>Try Demo</Button>
             <Grid item container spacing={2}>
                 <Grid item xs={3}></Grid>
