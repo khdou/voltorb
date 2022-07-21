@@ -44,15 +44,15 @@ export default function App() {
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0]
         ]);
-        setRowSum([303,303,303,303,303]);
-        setColSum([303,303,303,303,303]);
+        setRowSum([0,0,0,0,0]);
+        setColSum([0,0,0,0,0]);
         setBoardScores(solveVoltorbFlip([
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0]
-        ], [303,303,303,303,303], [303,303,303,303,303]));
+        ], [0,0,0,0,0], [0,0,0,0,0]));
     }
 
     const resetBoardOnly = () => {
@@ -108,15 +108,14 @@ export default function App() {
             <Button variant="outlined" onClick={resetBoardOnly} style={{margin:"20px"}}>Reset Board Only</Button>
             <Button variant="outlined" onClick={demo} style={{margin:"20px"}}>Try Demo</Button>
             <Grid item container spacing={2}>
-                <Grid item xs={3}></Grid>
-                <Grid item xs={6}>
+                <Grid item xs={2}></Grid>
+                <Grid item xs={9}>
                     <VoltorbGrid xs={12} boardValues={boardValues} boardScores={boardScores} updateBoardValues={updateBoardValues}/>
                 </Grid>
                 <Grid item xs={1}>
                     <VoltorbBar xs={12} isRow={true} arraySum={rowSum} updateArray={updateRow} />
                 </Grid>
                 <Grid item xs={2}></Grid>
-                <Grid item xs={3}></Grid>
                 <Grid item xs={9}>
                     <VoltorbBar xs={12} isRow={false} arraySum={colSum} updateArray ={updateCol} /> 
                 </Grid>

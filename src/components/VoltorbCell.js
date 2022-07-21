@@ -1,4 +1,4 @@
-import { Card, CardContent, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Card, CardContent, Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, RadioGroup, Select, TextField, Typography } from "@mui/material";
 
 export default function VoltorbCell(props) {
 
@@ -20,10 +20,24 @@ export default function VoltorbCell(props) {
     }
     const color = shouldShowColor() ? percentageToHsl(props.score / 100) : "white";
 
+    const updateBoardVal = (val) => {
+        if (props.val !== 0) {
+            props.updateVal(0);
+        } else {
+            props.updateVal(val);
+        }
+    }
+    const isDisabled = props.val === 0 ? false : true;
     return (<div>
-        <Card variant="outlined" square style={{backgroundColor: color}}>
+        <Card variant="outlined" square style={{backgroundColor: color, width:"100%"}}>
             <CardContent>
-                <FormControl fullWidth>
+                
+                <RadioGroup row>
+                    <FormControlLabel control={<Checkbox checked={props.val===1} onChange={()=>updateBoardVal(1)} />} label="1" />
+                    <FormControlLabel control={<Checkbox checked={props.val===2} onChange={()=>updateBoardVal(2)} />} label="2" />
+                    <FormControlLabel control={<Checkbox checked={props.val===3} onChange={()=>updateBoardVal(3)} />} label="3" />
+                 </RadioGroup>
+                {/* <FormControl fullWidth>
                     <InputLabel>Points</InputLabel>
                     <Select
                         label="Points"
@@ -34,9 +48,8 @@ export default function VoltorbCell(props) {
                         >
                         {cMenuItems}      
                     </Select>
-                </FormControl>
-                <Typography color={shouldShowColor() ? "black" : "white"}
-                    style={{height: "25px", marginTop:"10px"}}>
+                </FormControl> */}
+                <Typography color={shouldShowColor() ? "black" : "white"}>
                     {props.score.toString()}%
                 </Typography>
             </CardContent>

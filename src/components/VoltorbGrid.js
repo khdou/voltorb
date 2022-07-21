@@ -13,7 +13,7 @@ export default function VoltorbGrid(props) {
                             key={i*10+j}
                             val={props.boardValues[j][i]} 
                             score={props.boardScores[j][i]}
-                            updateVal={(e)=>props.updateBoardValues(j,i,e.target.value)} 
+                            updateVal={(val)=>props.updateBoardValues(j,i,val)} 
                         />)
         }
         grid.push(<Grid item xs={2} key={i}> 

@@ -1,42 +1,28 @@
-import { Card, CardContent, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Card, CardContent, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon';
 import { useState } from "react";
 
 export default function Cell(props) {
 
-    const pMenuItems = [];
-    for (let i = 0; i <= 10; i++) {
-        pMenuItems.push(<MenuItem key={i} value={i}>{i}</MenuItem>);
-    }  
-
-    const vMenuItems = [];
-    for (let i = 0; i <= 5; i++) {
-        vMenuItems.push(<MenuItem key={i} value={i}>{i}</MenuItem>);
-    }
     return (<Card variant="outlined" square style={{borderColor: "#2196f3"}}>
-        <CardContent style={{height:"80px", width:"107px"}}>
-            <FormControl fullWidth style={{marginBottom: "12px"}}>
-                <InputLabel>Points</InputLabel>
-                <Select
+        <CardContent style={{height:"90px", width:"140px"}} >
+            <TextField variant="outlined"
                     label="Points"
                     value={props.numPoints}
                     onChange={props.handlePointsChange}
-                    style={{height:"35px"}} 
-                >
-                    {pMenuItems} 
-                        
-                </Select>
-            </FormControl>
-            <FormControl fullWidth>
-                <InputLabel>Voltorbs</InputLabel>
-                <Select
+                    style={{padding:"0"}} />
+            <TextField variant="outlined"
                     label="Voltorbs"
                     value={props.numVoltorbs}
                     onChange={props.handleVoltorbsChange}
-                    style={{height:"35px"}} 
-                >
-                    {vMenuItems}      
-                </Select>
-            </FormControl>
+                    style={{marginTop:"10px", padding:"0"}} 
+                    InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <CatchingPokemonIcon/>
+                          </InputAdornment>
+                        ),
+                      }}/>
         </CardContent>
     </Card>)
 }

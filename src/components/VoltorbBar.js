@@ -6,14 +6,16 @@ export default function VoltorbBar(props) {
     const numVoltorbs = props.arraySum.map(sum => Math.floor(sum / 100));
 
     const handlePointsChange = (index, val) => {
+        let newVal = val === "" ? 0 : parseInt(val);
         const newArraySum = props.arraySum.slice();
-        newArraySum[index] = numVoltorbs[index] * 100 + parseInt(val);
+        newArraySum[index] = numVoltorbs[index] * 100 + newVal;
         props.updateArray(newArraySum);
     }
 
     const handleVoltorbsChange = (index, val) => {
+        let newVal = val === "" ? 0 : parseInt(val);
         const newArraySum = props.arraySum.slice();
-        newArraySum[index] = parseInt(val)*100 + numPoints[index];
+        newArraySum[index] = newVal*100 + numPoints[index];
         props.updateArray(newArraySum);
     }
     const direction= props.isRow ? "column" : "row";
