@@ -44,8 +44,8 @@ export default function App() {
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0]
         ]);
-        setRowSum([0,0,0,0,0]);
-        setColSum([0,0,0,0,0]);
+        setRowSum([303,303,303,303,303]);
+        setColSum([303,303,303,303,303]);
         setBoardScores(solveVoltorbFlip([
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
